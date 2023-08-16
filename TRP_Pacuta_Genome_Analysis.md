@@ -61,3 +61,9 @@ grep -A 1 -f Genes.txt references/Pocillopora_acuta_HIv2.genes.pep.faa > Genes.p
 grep -A 1 -f Genes.txt references/Pocillopora_acuta_HIv2.genes.cds.fna > Genes.cds.fna
 ```
 
+
+
+Use single cell atlas to track down important marker genes 
+
+https://sebe-lab.shinyapps.io/Stylophora_cell_atlas/
+

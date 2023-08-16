@@ -29,9 +29,9 @@ wget http://cyanophora.rutgers.edu/Pocillopora_acuta/Pocillopora_acuta_HIv2.gene
 wget http://cyanophora.rutgers.edu/Pocillopora_acuta/Pocillopora_acuta_HIv2.genes.pep.faa.gz
 
 gunzip Pocillopora_acuta_HIv2.assembly.fasta.gz #unzip genome file
-gunzip Pocillopora_acuta_HIv2.genes.gff3.gz #unzip gff annotation file
-gunzip Pocillopora_acuta_HIv2.genes.cds.fna.gz #unzip CDS file
-gunzip Pocillopora_acuta_HIv2.genes.pep.faa.gz #unzip Protein file
+gunzip Pocillopora_acuta_HIv2.genes.gff3.gz     #unzip gff annotation file
+gunzip Pocillopora_acuta_HIv2.genes.cds.fna.gz  #unzip CDS file
+gunzip Pocillopora_acuta_HIv2.genes.pep.faa.gz  #unzip Protein file
 ```
 
 ### Generate file containing genes of interest
@@ -48,15 +48,16 @@ Upload to andromeda:
 scp  /Users/zoedellaert/Documents/URI/Genome_Analysis/TRP_Pocillopora_acuta_HIv2.genes.Conserved_Domain_Search_results.csv zdellaert@ssh3.hac.uri.edu:/data/putnamlab/zdellaert/Genome_Analysis
 ```
 
-Take the first column (minus the header) from this file to have a list of gene names. Also use "sed 's/^/>/'" to add a ">" to the beginning of each line to facilitate searching through the fasta files.
+Take the first column (minus the header) from this file to have a list of gene names. 
 
 ```
-cut -d ',' -f 1 TRP_Pocillopora_acuta_HIv2.genes.Conserved_Domain_Search_results.csv | tail -n +2 | sed 's/^/>/' > Genes.txt
+cut -d ',' -f 1 TRP_Pocillopora_acuta_HIv2.genes.Conserved_Domain_Search_results.csv | tail -n +2 > Genes.txt
 ```
 
-Use grep to create a file with the genes and their coding sequence by searching through the genome file
+Use grep to create a file with the genes and their coding sequence (pep.faa = amino acid sequences, cds.fna = nucleotide sequences) by searching through the genome file
 
 ```
 grep -A 1 -f Genes.txt references/Pocillopora_acuta_HIv2.genes.pep.faa > Genes.pep.faa
-
+grep -A 1 -f Genes.txt references/Pocillopora_acuta_HIv2.genes.cds.fna > Genes.cds.fna
 ```
+

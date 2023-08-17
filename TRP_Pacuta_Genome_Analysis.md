@@ -63,7 +63,18 @@ grep -A 1 -f Genes.txt references/Pocillopora_acuta_HIv2.genes.cds.fna > Genes.c
 
 
 
-Use single cell atlas to track down important marker genes 
+Submitted job to [Clustal Omega](https://www.ebi.ac.uk/Tools/services/web_clustalo/toolform.ebi) (just submitted the Genes.pep.faa file)
 
-https://sebe-lab.shinyapps.io/Stylophora_cell_atlas/
+Results: [http://www.ebi.ac.uk/Tools/services/web/toolresult.ebi?jobId=clustalo-E20230817-184430-0562-85614196-p1m&analysis=tree]
 
+![Screenshot%202023-08-17%20at%2014.00.08.png](https://github.com/zdellaert/Genome_Analysis/blob/main/Screenshot%202023-08-17%20at%2014.00.08.png?raw=true)
+
+![Screenshot%202023-08-17%20at%2013.59.59.png](https://github.com/zdellaert/Genome_Analysis/blob/main/Screenshot%202023-08-17%20at%2013.59.59.png?raw=true)
+
+
+Think that we should try to get more specific matches, and to combine the similar sequences into groups. Right now, these matches are all superfamily-level matches. It would be good to have a better idea of everything.
+
+
+Notes:
+
+Use [single cell atlas](https://sebe-lab.shinyapps.io/Stylophora_cell_atlas/) to track down important marker genes + cell specificity of TRP channels

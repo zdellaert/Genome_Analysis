@@ -72,9 +72,76 @@ Results: [http://www.ebi.ac.uk/Tools/services/web/toolresult.ebi?jobId=clustalo-
 ![Screenshot%202023-08-17%20at%2013.59.59.png](https://github.com/zdellaert/Genome_Analysis/blob/main/Screenshot%202023-08-17%20at%2013.59.59.png?raw=true)
 
 
-Think that we should try to get more specific matches, and to combine the similar sequences into groups. Right now, these matches are all superfamily-level matches. It would be good to have a better idea of everything.
+Think that we should try to get more specific matches, and to combine the similar sequences into groups. Right now, these matches are all superfamily-level matches. It would be good to have a better idea of what seqeucnes are partial matches for each other, for example.
+
+[CD-HIT](https://sites.google.com/view/cd-hit)
+
+- Installation instructions: https://github.com/weizhongli/cdhit/wiki/2.-Installation
+- I will use the version of CD-HIT that is already installed on andromeda, CD-HIT/4.8.1-GCC-11.3.0
+
+
+
+```
+interactive
+module load CD-HIT/4.8.1-GCC-11.3.0
+
+sed '/--/d' Genes.pep.faa > pep.fasta 
+cd-hit -i pep.fasta -o db90 #90% identity
+cd-hit -i pep.fasta -o db90 -c 0.6 -n 4 #60% identity
+
+```
+
+90% idenitiy (default) leads to 66 clusters (so each protein is "unique" enough to not cluster with any others)
+
+60% idenitiy (default) leads to 60 clusters, so our dataset is pretty non-redundant...
+
+Next steps then:
+
+- Download human TRP channel sequences based on [Bhattacharya et al 2016](https://doi.org/10.7554/eLife.13288) elife-13288-fig2-data1-v1.docx
+
+| Human TRP Channels | Present in Pdam? According to Bhattacharya et al |
+|--------------------|--------------------------------------------------|
+| TRPA1              | X                                                |
+| TRPV1              |                                                  |
+| TRPV2              |                                                  |
+| TRPV3              |                                                  |
+| TRPV4              | X                                                |
+| TRPV5              |                                                  |
+| TRPV6              |                                                  |
+| TRPM1              |                                                  |
+| TRPM2              |                                                  |
+| TRPM3              | X                                                |
+| TRPM4              |                                                  |
+| TRPM5              |                                                  |
+| TRPM6              |                                                  |
+| TRPM7              |                                                  |
+| TRPM8              |                                                  |
+| TRPC1              |                                                  |
+| TRPC2              | p                                                |
+| TRPC3              |                                                  |
+| TRPC4              | X                                                |
+| TRPC5              | X                                                |
+| TRPC6              | X                                                |
+| TRPC7              |                                                  |
+
+
+[NCBI Fasta Download](https://github.com/kblin/ncbi-acc-download)
+
+```
+pip install ncbi-acc-download
+```
+
+#TRP IDs
+```
+mkdir human_TRP
+cd human_TRP
+
+ncbi-acc-download --format fasta NM_007332.3	NM_018727.5	NM_016113.5	NM_001258205.2	NM_001177428.1	NM_019841.7	NM_018646.6	NM_001252020.2	NM_001320350.2	NM_001007470.3	NM_001195227.2	NM_014555.4	NM_001177310.2	NM_001301212.2	NM_001397606.1	NM_001251845.2	NR_002720.2	NM_001130698.2	NM_001135955.3	NM_012471.3	NM_004621.6	NM_001167576.2
+```
 
 
 Notes:
 
 Use [single cell atlas](https://sebe-lab.shinyapps.io/Stylophora_cell_atlas/) to track down important marker genes + cell specificity of TRP channels
+
+Good reference: https://www.nature.com/articles/srep08032

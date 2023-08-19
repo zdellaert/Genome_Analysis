@@ -97,32 +97,32 @@ cd-hit -i pep.fasta -o db90 -c 0.6 -n 4 #60% identity
 
 Next steps then:
 
-- Download human TRP channel sequences based on [Bhattacharya et al 2016](https://doi.org/10.7554/eLife.13288) elife-13288-fig2-data1-v1.docx
+### Download human TRP channel sequences based on [Bhattacharya et al 2016](https://doi.org/10.7554/eLife.13288) elife-13288-fig2-data1-v1.docx
 
-| Human TRP Channels | Present in Pdam? According to Bhattacharya et al |
-|--------------------|--------------------------------------------------|
-| TRPA1              | X                                                |
-| TRPV1              |                                                  |
-| TRPV2              |                                                  |
-| TRPV3              |                                                  |
-| TRPV4              | X                                                |
-| TRPV5              |                                                  |
-| TRPV6              |                                                  |
-| TRPM1              |                                                  |
-| TRPM2              |                                                  |
-| TRPM3              | X                                                |
-| TRPM4              |                                                  |
-| TRPM5              |                                                  |
-| TRPM6              |                                                  |
-| TRPM7              |                                                  |
-| TRPM8              |                                                  |
-| TRPC1              |                                                  |
-| TRPC2              | p                                                |
-| TRPC3              |                                                  |
-| TRPC4              | X                                                |
-| TRPC5              | X                                                |
-| TRPC6              | X                                                |
-| TRPC7              |                                                  |
+| Human TRP Channels | Present in Pdam? According to Bhattacharya et al | Refseq mRNA    | Refseq Prot    |
+|--------------------|--------------------------------------------------|----------------|----------------|
+| TRPA1              | X                                                | NM_007332.3    | NP_015628.2    |
+| TRPV1              |                                                  | NM_018727.5    | NP_061197.4    |
+| TRPV2              |                                                  | NM_016113.5    | NP_057197.2    |
+| TRPV3              |                                                  | NM_001258205.2 | NP_001245134.1 |
+| TRPV4              | X                                                | NM_001177428.1 | NP_001170899.1 |
+| TRPV5              |                                                  | NM_019841.7    | NP_062815.3    |
+| TRPV6              |                                                  | NM_018646.6    | NP_061116.5    |
+| TRPM1              |                                                  | NM_001252020.2 | NP_001238949.1 |
+| TRPM2              |                                                  | NM_001320350.2 | NP_001307279.2 |
+| TRPM3              | X                                                | NM_001007470.3 | NP_001007471.1 |
+| TRPM4              |                                                  | NM_001195227.2 | NP_001182156.1 |
+| TRPM5              |                                                  | NM_014555.4    | NP_055370.1    |
+| TRPM6              |                                                  | NM_001177310.2 | NP_001170781.1 |
+| TRPM7              |                                                  | NM_001301212.2 | NP_001288141.1 |
+| TRPM8              |                                                  | NM_001397606.1 | NP_001384535.1 |
+| TRPC1              |                                                  | NM_001251845.2 | NP_001238774.1 |
+| TRPC2              | p                                                | NR_002720.2    |                |
+| TRPC3              |                                                  | NM_001130698.2 | NP_001124170.1 |
+| TRPC4              | X                                                | NM_001135955.3 | NP_001129427.1 |
+| TRPC5              | X                                                | NM_012471.3    | NP_036603.1    |
+| TRPC6              | X                                                | NM_004621.6    | NP_004612.2    |
+| TRPC7              |                                                  | NM_001167576.2 | NP_001161048.1 |
 
 
 [NCBI Fasta Download](https://github.com/kblin/ncbi-acc-download)
@@ -132,12 +132,75 @@ pip install ncbi-acc-download
 ```
 
 #TRP IDs
+
 ```
 mkdir human_TRP
 cd human_TRP
 
-ncbi-acc-download --format fasta NM_007332.3	NM_018727.5	NM_016113.5	NM_001258205.2	NM_001177428.1	NM_019841.7	NM_018646.6	NM_001252020.2	NM_001320350.2	NM_001007470.3	NM_001195227.2	NM_014555.4	NM_001177310.2	NM_001301212.2	NM_001397606.1	NM_001251845.2	NR_002720.2	NM_001130698.2	NM_001135955.3	NM_012471.3	NM_004621.6	NM_001167576.2
+ncbi-acc-download --molecule protein --format fasta NP_015628.2 NP_061197.4 NP_057197.2 NP_001245134.1 NP_001170899.1 NP_062815.3 NP_061116.5 NP_001238949.1 NP_001307279.2 NP_001007471.1	NP_001182156.1 NP_055370.1 NP_001170781.1 NP_001288141.1 NP_001384535.1 NP_001238774.1 NP_001124170.1 NP_001129427.1 NP_036603.1 NP_004612.2 NP_001161048.1
+
+cat * > human_TRP.fa
 ```
+
+On personal computer:
+```
+scp  /Users/zoedellaert/Documents/URI/Genome_Analysis/human_TRP/human_TRP.fa zdellaert@ssh3.hac.uri.edu:/data/putnamlab/zdellaert/Genome_Analysis
+```
+
+On andromeda:
+
+```
+cd /data/putnamlab/zdellaert/Genome_Analysis
+nano blast_TRP.sh
+```
+
+```
+#!/bin/bash
+#SBATCH --job-name="Pacuta_TRP_blast"
+#SBATCH -t 240:00:00
+#SBATCH --export=NONE
+#SBATCH --mail-type=BEGIN,END,FAIL #email you when job starts, stops and/or fails
+#SBATCH --mail-user=zdellaert@uri.edu #your email to send notifications
+#SBATCH --mem=100GB
+#SBATCH --error="blast_out_error"
+#SBATCH --output="blast_out"
+#SBATCH --account=putnamlab
+#SBATCH -D /data/putnamlab/zdellaert/Genome_Analysis/
+#SBATCH --nodes=1 --ntasks-per-node=20
+
+module load BLAST+/2.9.0-iimpi-2019b
+
+makeblastdb -in references/Pocillopora_acuta_HIv2.genes.pep.faa -out Pacuta_prot -dbtype prot
+
+blastp -query human_TRP.fa -db Pacuta_prot -out TRP_results.txt -outfmt 6
+```
+
+```
+sbatch blast_TRP.sh
+```
+
+On personal computer:
+
+```
+scp  zdellaert@ssh3.hac.uri.edu:/data/putnamlab/zdellaert/Genome_Analysis/TRP_results.txt /Users/zoedellaert/Documents/URI/Genome_Analysis/
+```
+
+#### Results
+
+
+
+### Alt pipeline, Nucleotide version (not protein)
+
+```
+mkdir human_TRP_nt
+cd human_TRP_nt
+
+ncbi-acc-download --format fasta NM_007332.3	NM_018727.5	NM_016113.5	NM_001258205.2	NM_001177428.1	NM_019841.7	NM_018646.6	NM_001252020.2	NM_001320350.2	NM_001007470.3	NM_001195227.2	NM_014555.4	NM_001177310.2	NM_001301212.2	NM_001397606.1	NM_001251845.2	NR_002720.2	NM_001130698.2	NM_001135955.3	NM_012471.3	NM_004621.6	NM_001167576.2
+
+cat * > human_TRP_nt.fa
+```
+
+> In geneious, performing a translation alignment of the 22 human sequences with the 66 Pacuta sequences.
 
 
 Notes:
